@@ -42,7 +42,7 @@ OK
 (empty list or set)
 ```
 
-### Flushall；通杀全部库
+### Flushall：通杀全部库
 ```
 这个就是清空所有的数据库，千万不能乱用！
 ```
