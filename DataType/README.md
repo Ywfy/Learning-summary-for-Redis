@@ -1,4 +1,4 @@
-# Redis五大数据类型
+# Redis五大数据类型概述
 ## String(字符串)
 * string是redis最基本的类型，一个key对应一个value
 * string类型是二进制安全的。意思是redis的string可以包含任何数据,比如jpg图片或者序列化的对象 
