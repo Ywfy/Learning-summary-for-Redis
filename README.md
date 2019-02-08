@@ -4,4 +4,9 @@
 * [HelloWorld](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/HelloWorld/README.md)
 * [Redis简单基础知识](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Basic/README.md)
 * [Redis五大数据类型](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/DataType/README.md)
-  *[Strong]()
+  * [String]()
+  * [List]()
+  * [Set]()
+  * [Hash]()
+  * [sorted set]()
+  
