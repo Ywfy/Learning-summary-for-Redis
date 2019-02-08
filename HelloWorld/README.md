@@ -35,7 +35,7 @@ Jemalloc/jemalloc.h:没有那个文件或目录
 ```
 make distclean
 ```
-之后再运行make
+之后再运行make<br><br>
 
 
 ## Redis安装
@@ -60,6 +60,7 @@ redis-check-dump    ----RDB文件检查工具（快照持久化文件）
 redis-cli                  ----命令行客户端
 
 redis-server          ----redis服务器启动命令
+<br><br>
 
 ## 配置redis.conf
 在启动redis之前，需要先配置redis.conf文件<br>
@@ -97,7 +98,11 @@ cd /usr/local/redis/bin
 ```
 ![无法加载图片](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/HelloWorld/qd.png)<br>
 上图表示redis服务和客户端均已启动成功<br>
+
+此时可以进行如下测试:<br>
+![无法加载图片](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/HelloWorld/cs.png)<br>
 <br>
+
 
 ## 关闭redis
 ```
