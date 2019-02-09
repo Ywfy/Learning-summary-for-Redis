@@ -1,11 +1,4 @@
 # Redis五大数据类型
-
-
-### Zset(sorted set:有序集合)
-* Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。
-* redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
-<br>
-
 <strong>参考博客:http://www.runoob.com/redis/redis-tutorial.html</strong><br>
 <strong>详细了解推荐查看网站:http://redisdoc.com/</strong>
 <br><br>
@@ -551,4 +544,253 @@ OK
 
 ## Set(集合)
 * Redis的Set是string类型的无序集合。它是通过HashTable实现的
+### SADD
+* 将一个或多个member元素加入到key中，已存在于集合的member将被忽略
+* 假如key不存在，则创建一个只包含member元素作为成员的集合
+* 当key不是集合类型时，将返回一个错误
+```
+语法：SADD KEY_NAME VALUE1..VALUEN
 
+示例：
+127.0.0.1:6379> SADD set1 "baaa" "yunnnn" "ziiiii"
+(integer) 3
+```
+
+### SCARD
+* 返回key对应的集合中的元素数量
+```
+语法：SCARD KEY_NAME 
+
+示例：
+127.0.0.1:6379> SCARD set1
+(integer) 3
+```
+
+### SDIFF
+* 返回一个集合的全部成员，该集合是第一个Key对应的集合和后面key对应的集合的差集
+* 不存在的集合key将视为空集
+```
+语法：SDIFF FIRST_KEY OTHER_KEY1..OTHER_KEYN 
+
+示例：
+127.0.0.1:6379> SADD set1 "baaa" "yunnnn" "ziiiii"
+(integer) 3
+127.0.0.1:6379> SADD set1 666
+(integer) 1
+127.0.0.1:6379> SADD set2 "yooo" "mooo" 666
+(integer) 3
+127.0.0.1:6379> SDIFF set1 set2
+1) "yunnnn"
+2) "ziiiii"
+3) "baaa"
+```
+
+### SDIFFSTORE
+* 和SDIFF类似，但结果保存到destination集合而不是简单返回结果集
+* destination如果已存在，则覆盖
+```
+语法：SDIFFSTORE DESTINATION_KEY KEY1..KEYN
+
+示例：
+127.0.0.1:6379> SADD set1 "baaa" "yunnnn" "ziiiii"
+(integer) 3
+127.0.0.1:6379> SADD set1 666
+(integer) 1
+127.0.0.1:6379> SADD set2 "yooo" "mooo" 666
+(integer) 3
+127.0.0.1:6379> SDIFFSTORE destset set1 set2
+(integer) 3
+```
+
+### SINTER
+* 返回一个集合的全部成员，该集合是所有给定集合的交集
+* 不存在的key被视为空集
+```
+语法：SINTER KEY KEY1..KEYN 
+
+示例：
+127.0.0.1:6379> SADD set1 "baaa" "yunnnn" "ziiiii"
+(integer) 3
+127.0.0.1:6379> SADD set1 666
+(integer) 1
+127.0.0.1:6379> SADD set2 "yooo" "mooo" 666
+(integer) 3
+127.0.0.1:6379> SINTER set1 set2
+1) "666"
+```
+
+### SINTERSTORE
+* 和SINTER类似，但结果保存在destination集合而不是简单返回结果集
+* 如果destination已存在，则覆盖
+* destination可以是key本身
+```
+语法:SINTERSTORE DESTINATION_KEY KEY1..KEYN
+
+示例：
+127.0.0.1:6379> SADD set1 "baaa" "yunnnn" "ziiiii"
+(integer) 3
+127.0.0.1:6379> SADD set1 666
+(integer) 1
+127.0.0.1:6379> SADD set2 "yooo" "mooo" 666
+(integer) 3
+127.0.0.1:6379> SINTERSTORE destset2 set1 set2
+(integer) 1
+```
+
+### SISMEMBER
+* 判断member元素是否是key的成员，0表示不是，1表示是
+```
+语法：SISMEMBER KEY VALUE
+
+示例：
+127.0.0.1:6379> SISMEMBER set1 "baaa"
+(integer) 1
+127.0.0.1:6379> SISMEMBER set1 "laaa"
+(integer) 0
+```
+
+### SMEMBERS
+* 返回集合key中的所有成员
+* 不存在的key被视为空集
+```
+语法：SMEMBERS key
+
+示例：
+127.0.0.1:6379> SMEMBERS set1
+1) "yunnnn"
+2) "666"
+3) "ziiiii"
+4) "baaa"
+127.0.0.1:6379> SMEMBERS set2
+1) "666"
+2) "yooo"
+3) "mooo"
+```
+
+### SMOVE
+* 原子性地将member元素从source集合移动到destination集合
+* source集合中不包含member元素，SMOVE命令不执行任何操作，仅返回0
+* destination中已包含member元素，SMOVE命令只是简单做source集合的memebr元素移除
+* 当source或destination不是集合类型时，返回一个错误。
+```
+语法：SMOVE SOURCE DESTINATION MEMBER 
+
+示例：
+127.0.0.1:6379> SMOVE set1 set2 666
+(integer) 1
+127.0.0.1:6379> SMEMBERS set1
+1) "yunnnn"
+2) "ziiiii"
+3) "baaa"
+127.0.0.1:6379> SMEMBERS set2
+1) "666"
+2) "yooo"
+3) "mooo"
+```
+
+### SPOP
+* 移除并返回集合中的一个随机元素，如果count不指定那么随机返回一个元素
+* count为正数且小于集合元素数量，那么返回一个count个元素的数组且数组中的元素各不相同
+* count为正数且大于等于集合元素数量，那么返回整个集合
+* count为负数，那么返回一个数组，数组中的元素可能重复多次，数量为count的绝对值<br>
+注：count 参数在 3.2+ 版本可用。
+```
+语法：SPOP key [count]
+
+示例：
+127.0.0.1:6379> SMEMBERS set2
+1) "777"
+2) "666"
+3) "yooo"
+4) "mooo"
+5) "888"
+127.0.0.1:6379> SPOP set2
+"777"
+```
+
+### SRANDMEMBER
+* 如果count不指定，那么返回集合中的一个随机元素
+* count同上
+* 该操作和 SPOP 相似，但 SPOP 将随机元素从集合中移除并返回，而 Srandmember 则仅仅返回随机元素，而不对集合进行任何改动
+```
+语法：SRANDMEMBER KEY [count]
+
+示例：
+127.0.0.1:6379> SRANDMEMBER set2 2
+1) "888"
+2) "yooo"
+```
+
+### SREM
+* 移除集合key中的一个或多个member元素，不存在的member将被忽略
+* 当key不是集合类型，返回一个错误。
+```
+语法：SREM KEY MEMBER1..MEMBERN
+
+示例：
+127.0.0.1:6379> SMEMBERS set2
+1) "777"
+2) "666"
+3) "yooo"
+4) "mooo"
+5) "888"
+127.0.0.1:6379> SREM set2 777 888
+(integer) 1
+127.0.0.1:6379> SMEMBERS set2
+1) "mooo"
+2) "yooo"
+3) "666"
+```
+
+### SUNION
+* 返回一个集合的全部成员，该集合是所有给定集合的并集
+* 不存在的key被视为空集
+```
+语法：SUNION KEY1..KEYN
+
+示例：
+127.0.0.1:6379> SMEMBERS set1
+1) "yunnnn"
+2) "ziiiii"
+3) "baaa"
+127.0.0.1:6379> SMEMBERS set2
+1) "mooo"
+2) "yooo"
+3) "666"
+127.0.0.1:6379> SUNION set1 set2
+1) "ziiiii"
+2) "mooo"
+3) "baaa"
+4) "yunnnn"
+5) "666"
+6) "yooo"
+```
+
+### SUNIONSTORE
+* 类似SUNION，但结果保存到destination集合而不是简单返回结果集
+* destination已存在，覆盖旧值
+* destination可以是key本身
+```
+语法：SUNIONSTORE DESTINATION KEY1..KEYN
+
+示例：
+127.0.0.1:6379> SUNIONSTORE destset3 set1 set2
+(integer) 6
+127.0.0.1:6379> SMEMBERS destset3
+1) "ziiiii"
+2) "mooo"
+3) "baaa"
+4) "yunnnn"
+5) "666"
+6) "yooo"
+```
+<br>
+
+
+## Zset(sorted set:有序集合)
+* Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。
+* redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
+### ZADD
+* 将一个或多个member元素及其score值加入有序集key中
+* 如果member已经是有序集的成员，那么更新member对应的score并重新插入member保证member在正确的位置上
+* score可以是整数值或双精度浮点数
