@@ -794,3 +794,131 @@ OK
 * 将一个或多个member元素及其score值加入有序集key中
 * 如果member已经是有序集的成员，那么更新member对应的score并重新插入member保证member在正确的位置上
 * score可以是整数值或双精度浮点数
+* 如果有序集合key不存在，则创建一个空的有序集并执行 ZADD 操作
+* 当key存在但不是有序集类型时，返回一个错误
+```
+语法：ZADD KEY_NAME SCORE1 VALUE1.. SCOREN VALUEN
+
+示例：
+127.0.0.1:6379> ZADD myzset 1 "one"
+(integer) 1
+(1.29s)
+127.0.0.1:6379> ZADD myzset 1 "two"
+(integer) 1
+127.0.0.1:6379> ZADD myzset 3 "three" 4 "four"
+(integer) 2
+127.0.0.1:6379> ZRANGE myzset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+5) "three"
+6) "3"
+7) "four"
+8) "4"
+```
+
+### ZCARD
+* 返回有序集key的元素个数
+```
+语法：ZCARD KEY_NAME
+
+示例：
+127.0.0.1:6379> ZCARD myzset
+(integer) 4
+```
+
+### ZCOUNT
+* 返回有序集key中，score>=min且score<=max的成员的数量
+```
+语法：ZCOUNT key min max
+
+示例：
+127.0.0.1:6379> ZCOUNT myset 3 4
+(integer) 2
+```
+
+### ZRANGE
+* 返回有序集key中指定区间内的成员，成员位置按score从小到大排序
+* 具有相同score值的成员按字典序排列
+* 需要成员按score从大到小排列，使用ZREVRANGE命令
+* 下标参数start和end都以0为底，也可以使用负数
+* 可通过withscores选项让成员和它的score值一并返回
+```
+语法：ZRANGE key start end [WITHSCORES]
+
+示例：
+127.0.0.1:6379> ZRANGE myzset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+5) "three"
+6) "3"
+7) "four"
+8) "4"
+```
+
+### ZRANK
+* 返回有序集key中成员member的排名，有序集成员按score值从小到大排列
+* 排名以0为底，即score最小的成员排名为0
+* ZREVRANK命令可将成员按score值从大到小排名
+```
+语法：ZRANK key member
+
+示例：
+127.0.0.1:6379> ZRANK myzset four
+(integer) 3
+```
+
+### ZREM
+* 移除有序集key中的一个或多个成员，不存在的成员将被忽略
+* 当key存在但不是有序集时，返回错误
+```
+语法：ZREM key member [member ...]
+
+示例：
+127.0.0.1:6379> ZRANGE myzset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+5) "three"
+6) "3"
+7) "four"
+8) "4"
+127.0.0.1:6379> ZREM myzset three four
+(integer) 2
+127.0.0.1:6379> ZRANGE myzset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+```
+
+### ZREMRANGEBYRANK
+* 移除有序集key中指定排名区间内的所有成员
+```
+语法：ZREMRANGEBYRANK key start end
+
+示例：
+127.0.0.1:6379> ZRANGE myset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+5) "666"
+6) "4"
+7) "niuniuniu"
+8) "6"
+127.0.0.1:6379> ZREMRANGEBYRANK myset 2 3 
+(integer) 2
+127.0.0.1:6379> ZRANGE myset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+```
+
+### 
+
