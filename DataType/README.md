@@ -898,6 +898,7 @@ OK
 
 ### ZREMRANGEBYRANK
 * 移除有序集key中指定排名区间内的所有成员
+* 当score出现重复值时，比如1 1 2 3，由于有两个1，我们会认为3正序的Rank应当为2（以0为下标），但实际上会是3，所以Rank应当理解为元素在集合中的下标位置更加准确
 ```
 语法：ZREMRANGEBYRANK key start end
 
@@ -920,5 +921,28 @@ OK
 4) "1"
 ```
 
-### 
+### ZREMRANGEBYSCORE
+* 移除有序集key中，所有score>=min且score<=max之间的成员
+```
+语法：ZREMRANGEBYSCORE key min max
+
+示例：
+127.0.0.1:6379> ZRANGE myset 0 -1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "1"
+5) "three"
+6) "666"
+7) "four"
+8) "888"
+127.0.0.1:6379> ZREMRANGEBYSCORE myset 0 1
+(integer) 2
+127.0.0.1:6379> ZRANGE myset 0 -1 withscores
+1) "three"
+2) "666"
+3) "four"
+4) "888"
+```
+
 
