@@ -67,10 +67,10 @@ Redis.conf位于解压出来的安装包里面，不过一般我们会保留出�
 ```
     slaveof <masterip> <masterport>
 ```
-14. 当master服务设置了密码保护时，slav服务连接master的密码
-
+14. 当master服务设置了密码保护时，slave服务连接master的密码
+```
     masterauth <master-password>
-
+```
 15. 设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH <password>命令提供密码，默认关闭
 ```
     requirepass foobared
