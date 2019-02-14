@@ -72,9 +72,9 @@ Redis.conf位于解压出来的安装包里面，不过一般我们会保留出�
     masterauth <master-password>
 
 15. 设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH <password>命令提供密码，默认关闭
-
+```
     requirepass foobared
-
+```
 16. 设置同一时间最大客户端连接数，默认无限制，Redis可以同时打开的客户端连接数为Redis进程可以打开的最大文件描述符数，如果设置 maxclients 0，表示不作限制。当客户端连接数到达限制时，Redis会关闭新的连接并向客户端返回max number of clients reached错误信息
 ```
     maxclients 128
@@ -92,12 +92,13 @@ Redis.conf位于解压出来的安装包里面，不过一般我们会保留出�
      appendfilename appendonly.aof
 ```
 20. 指定更新日志条件，共有3个可选值： 
+```
     no：表示等操作系统进行数据缓存同步到磁盘（快） 
     always：表示每次更新操作后手动调用fsync()将数据写到磁盘（慢，安全） 
     everysec：表示每秒同步一次（折中，默认值）
 
     appendfsync everysec
-
+```
  
 
 21. 指定是否启用虚拟内存机制，默认值为no，简单的介绍一下，VM机制将数据分页存放，由Redis将访问量较少的页即冷数据swap到磁盘上，访问多的页面由磁盘自动换出到内存中（在后面的文章我会仔细分析Redis的VM机制）
