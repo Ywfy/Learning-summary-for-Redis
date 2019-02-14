@@ -14,5 +14,6 @@
   * [RDB](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/RDB.md)
   * [AOF](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/AOF.md)
 * [事务]()
+* [Redis发布订阅]()
   
   
