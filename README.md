@@ -15,5 +15,6 @@
   * [AOF](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/AOF.md)
 * [事务](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/transaction/README.md)
 * [Redis发布订阅](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/message/README.md)
-* [主从复制]()
+* [主从复制](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Master-Slave/README.md)
+* [Jedis]()
   
