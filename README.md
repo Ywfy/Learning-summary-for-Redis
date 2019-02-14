@@ -11,7 +11,7 @@
   * [sorted set](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/DataType/README.md#zsetsorted-set%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88)
 * [配置文件Redis.conf](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/RedisConf/README.md)
 * 持久化
-  * [RDB]()
-  * [AOF]()
+  * [RDB](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/RDB.md)
+  * [AOF](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/AOF.md)
   
   
