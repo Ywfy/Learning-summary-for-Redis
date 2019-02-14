@@ -13,7 +13,7 @@
 * 持久化
   * [RDB](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/RDB.md)
   * [AOF](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/Persistence/AOF.md)
-* [事务]()
-* [Redis发布订阅]()
-  
+* [事务](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/transaction/README.md)
+* [Redis发布订阅](https://github.com/Ywfy/Learning-summary-for-Redis/blob/master/message/README.md)
+* [主从复制]()
   
